@@ -85,7 +85,7 @@ fi
 echo -e "${GREEN}[*] Securing external connection via Cloudflare...${NC}"
 pkill -f cloudflared 2>/dev/null || true
 > cloudflare-lab.log
-nohup cloudflared tunnel --url http://localhost:8080 > cloudflare-lab.log 2>&1 &
+nohup cloudflared tunnel --url https://localhost:8080 --no-tls-verify > cloudflare-lab.log 2>&1 &
 
 TUNNEL_URL=""
 for i in {1..15}; do
