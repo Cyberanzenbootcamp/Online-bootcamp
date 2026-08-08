@@ -1,4 +1,4 @@
-# 1. We MUST use Ubuntu to avoid the expired Kali server crashes
+# Start with the official Kasm Ubuntu Jammy (22.04) desktop
 FROM kasmweb/ubuntu-jammy-desktop:1.15.0
 
 # Switch to root to install tools
@@ -7,8 +7,11 @@ USER root
 # Tell the OS not to ask interactive questions
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 2. Pure, clean update and installation of only basic networking tools
-RUN apt-get update && \
+# 1. DELETE all third-party repositories (Google, Brave, etc.) that cause crashes
+# 2. Update ONLY the stable main Ubuntu servers
+# 3. Install core networking tools
+RUN rm -rf /etc/apt/sources.list.d/* && \
+    apt-get update && \
     apt-get install -y \
     nmap \
     iputils-ping \
