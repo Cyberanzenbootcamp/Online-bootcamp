@@ -61,10 +61,10 @@ if docker ps -aq -f name=cyber-lab > /dev/null 2>&1; then
 fi
 
 echo -e "${GREEN}[*] Booting core operating system...${NC}"
-docker run -d --name cyber-lab -p 8080:6901 -e VNC_PW=Bootcamp2026! --privileged kasmweb/desktop:1.15.0 > /dev/null
+docker run -d --name cyber-lab -p 8080:6901 -e VNC_USER=user -e VNC_PW=password --privileged kasmweb/desktop:1.15.0 > /dev/null
 sleep 10
 
-echo -e "${GREEN}[*] Injecting CyberAnzen Networking Toolkit...${NC}"
+echo -e "${GREEN}[*] Injecting CyberAnzen Toolkit...${NC}"
 docker exec -u 0 cyber-lab bash -c "
     rm -f /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update -qq && \
@@ -85,7 +85,7 @@ fi
 echo -e "${GREEN}[*] Securing external connection via Cloudflare...${NC}"
 pkill -f cloudflared 2>/dev/null || true
 > cloudflare-lab.log
-nohup cloudflared tunnel --url http://localhost:8080 > cloudflare-lab.log 2>&1 &
+nohup cloudflared tunnel --url https://localhost:8080 --no-tls-verify > cloudflare-lab.log 2>&1 &
 
 TUNNEL_URL=""
 for i in {1..15}; do
@@ -105,8 +105,8 @@ else
     echo -e "${PURPLE}✅ CYBERANZEN NETWORK LAB IS LIVE!${NC}"
     echo -e "===================================================="
     echo -e "🔗 Access Link  : ${CYAN}$TUNNEL_URL${NC}"
-    echo -e "👤 Username     : kasm_user"
-    echo -e "🔑 Password     : Bootcamp2026!"
+    echo -e "👤 Username     : user"
+    echo -e "🔑 Password     : password"
     echo -e "===================================================="
     echo -e "${YELLOW}>>> PRESS [CTRL+C] TO STOP THE LAB AND CLEAN UP RESOURCES <<<${NC}"
     
