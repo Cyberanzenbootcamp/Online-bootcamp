@@ -13,7 +13,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN echo "wireshark-common wireshark-common/install-setuid boolean true" | debconf-set-selections && \
     apt-get update && \
     apt-get install -y \
-    wireshark \
     nmap \
     iputils-ping \
     net-tools \
